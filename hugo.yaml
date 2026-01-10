@@ -1,0 +1,64 @@
+baseURL: "https://norush.cc/"
+title: "No Rush"
+theme: "PaperMod"
+defaultContentLanguage: "ru"
+
+# Разрешаем "опасный" HTML в контенте (иногда нужно для вставки скриптов)
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+
+# Настройки языков
+languages:
+  ru:
+    languageName: "Russian"
+    weight: 1
+    title: "No Rush"
+    menu:
+      main:
+        - name: Архив
+          url: /archives/
+          weight: 10
+        - name: Теги
+          url: /tags/
+          weight: 20
+  en:
+    languageName: "English"
+    weight: 2
+    title: "No Rush"
+    menu:
+      main:
+        - name: Archive
+          url: /archives/
+        - name: Tags
+          url: /tags/
+  he:
+    languageName: "Hebrew"
+    weight: 3
+    title: "No Rush"
+    direction: rtl # Включает режим справа-налево
+
+# Параметры темы PaperMod
+params:
+  defaultTheme: auto # Темная/светлая тема автоматически
+  ShowReadingTime: true
+  ShowShareButtons: true
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  
+  # Твой профиль на главной
+  profileMode:
+    enabled: true
+    title: "No Rush"
+    subtitle: "Не спеши с выводами. Прагматика, философия, теология."
+    buttons:
+      - name: Archive
+        url: /archives
+      - name: Github
+        url: https://github.com/ygilbaum
+
+  assets:
+    disableHLJS: true # Отключаем тяжелую подсветку, если не постим код тоннами
+
