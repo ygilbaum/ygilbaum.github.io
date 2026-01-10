@@ -55,15 +55,29 @@ params:
   ShowPostNavLinks: true
   ShowBreadCrumbs: true
   ShowCodeCopyButtons: true
-  profileMode:
-    enabled: true
-    title: "No Rush"
-    subtitle: "Не спеши с выводами. Прагматика, философия, теология."
-    buttons:
-      - name: Archive
-        url: /archives
-      - name: Github
-        url: https://github.com/ygilbaum
+
+  # --- РЕЖИМ БЛОГА (ВКЛЮЧЕНО) ---
+  # Это покажет приветствие и список статей под ним
+  homeInfoParams:
+    Title: "No Rush"
+    Content: "Не спеши с выводами. Прагматика, философия, теология."
+
+  # Соцсети (появятся под текстом приветствия)
+  socialIcons:
+    - name: github
+      url: "https://github.com/ygilbaum"
+
+  # --- РЕЖИМ ВИЗИТКИ (ОТКЛЮЧЕНО) ---
+  # profileMode:
+  #   enabled: true
+  #   title: "No Rush"
+  #   subtitle: "Не спеши с выводами..."
+  #   buttons:
+  #     - name: Archive
+  #       url: /archives
+  #     - name: Github
+  #       url: https://github.com/ygilbaum
+
   assets:
     disableHLJS: true
 
