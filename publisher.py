@@ -11,7 +11,7 @@ from googleapiclient.http import MediaIoBaseUpload
 import io
 
 # --- МАГИЧЕСКАЯ СТРОКА ДЛЯ WSL ---
-os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1' 
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 # --- НАСТРОЙКИ (Твои боевые параметры) ---
 SCOPES = ['https://www.googleapis.com/auth/drive']
@@ -167,6 +167,7 @@ def main():
             f.write(f"---\n")
             f.write(f"title: \"{title}\"\n") # В заголовке остается кириллица
             f.write(f"date: {date_now}\n")
+            f.write(f"draft: false\n")
             f.write(f"tags: {json.dumps(tags, ensure_ascii=False)}\n")
             f.write(f"---\n\n")
             f.write(body)

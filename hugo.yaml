@@ -2,19 +2,19 @@ baseURL: "https://norush.cc/"
 title: "No Rush"
 theme: "PaperMod"
 defaultContentLanguage: "ru"
+buildFuture: true  # <--- ВАЖНО: Публиковать посты, даже если дата "в будущем" (из-за часовых поясов)
 
-# Разрешаем "опасный" HTML в контенте (иногда нужно для вставки скриптов)
 markup:
   goldmark:
     renderer:
       unsafe: true
 
-# Настройки языков
 languages:
   ru:
     languageName: "Russian"
     weight: 1
     title: "No Rush"
+    contentDir: content/ru   # <--- ЯВНО УКАЗЫВАЕМ ПАПКУ
     menu:
       main:
         - name: Архив
@@ -27,6 +27,7 @@ languages:
     languageName: "English"
     weight: 2
     title: "No Rush"
+    contentDir: content/en   # <--- ЯВНО УКАЗЫВАЕМ ПАПКУ
     menu:
       main:
         - name: Archive
@@ -37,19 +38,23 @@ languages:
     languageName: "Hebrew"
     weight: 3
     title: "No Rush"
+    contentDir: content/he   # <--- ЯВНО УКАЗЫВАЕМ ПАПКУ
     params:
-      direction: rtl # Включает режим справа-налево
+      direction: rtl
+    menu:
+      main:
+        - name: Archive
+          url: /archives/
+        - name: Tags
+          url: /tags/
 
-# Параметры темы PaperMod
 params:
-  defaultTheme: auto # Темная/светлая тема автоматически
+  defaultTheme: auto
   ShowReadingTime: true
   ShowShareButtons: true
   ShowPostNavLinks: true
   ShowBreadCrumbs: true
   ShowCodeCopyButtons: true
-  
-  # Твой профиль на главной
   profileMode:
     enabled: true
     title: "No Rush"
@@ -59,7 +64,6 @@ params:
         url: /archives
       - name: Github
         url: https://github.com/ygilbaum
-
   assets:
-    disableHLJS: true # Отключаем тяжелую подсветку, если не постим код тоннами
+    disableHLJS: true
 
