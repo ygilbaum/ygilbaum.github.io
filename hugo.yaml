@@ -37,7 +37,8 @@ languages:
     languageName: "Hebrew"
     weight: 3
     title: "No Rush"
-    direction: rtl # Включает режим справа-налево
+    params:
+      direction: rtl # Включает режим справа-налево
 
 # Параметры темы PaperMod
 params:
