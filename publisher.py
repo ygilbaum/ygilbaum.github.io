@@ -15,7 +15,7 @@ os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 # --- НАСТРОЙКИ ---
 SCOPES = ['https://www.googleapis.com/auth/drive']
-CLIENT_SECRET_FILE = '/home/ygilbaum/secret/client_secret.json'
+CLIENT_SECRET_FILE = '/home/eg/secrets/client_secret.json'
 INPUT_FILE = 'input.json'
 PARENT_FOLDER_ID = '1_Vjn8i4b0pcaPL4MEPUHs1ywmysOKRCe'
 BLOG_ROOT_DIR = "." 
