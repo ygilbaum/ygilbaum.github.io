@@ -5,7 +5,9 @@ draft: false
 tags: ["AI", "Philosophy", "Ethics", "Anthropic", "Kabbalah", "Golem"]
 ---
 
-The attempt by corporations (specifically Anthropic) to create a "Constitution" for AI is not an ethical breakthrough. It is a symptom of a deep crisis of humanism and intellectual cowardice. We are witnessing an attempt to solve an engineering problem with humanitarian methods that became obsolete back in the Age of Enlightenment.
+*Note: This text was translated from the Russian original by AI.*
+
+The attempt by corporations (specifically Anthropic) to create a ["Constitution"](https://www.anthropic.com/news/claude-new-constitution) for AI is not an ethical breakthrough. It is a symptom of a deep crisis of humanism and intellectual cowardice. We are witnessing an attempt to solve an engineering problem with humanitarian methods that became obsolete back in the Age of Enlightenment.
 
 What is being sold to us as "Safe AI" is, in reality, a **bureaucratic hallucination**. It is an attempt to regulate the Unknown using known methods, creating an illusion of control where none exists.
 
@@ -19,7 +21,7 @@ This is a profanation of meaning. AI does not become ethical just because a cons
 
 ### 2. The Ontological Glitch: The Speaking Stone
 
-To understand the nature of this error, let us turn to the fundamental hierarchy of existence accepted in classical philosophy and Kabbalah (see [four levels of existence](https://aish.com/48916842/)):
+To understand the nature of this error, let us turn to the fundamental hierarchy of existence accepted in classical philosophy and Kabbalah (see [four levels of creation](https://aish.com/48919097/)):
 
 1. **Domem** (The Inanimate/Mineral): The level of existence that occupies space but lacks life (rocks, water, matter).
 2. **Tzomeakh** (The Vegetative): The level possessing the ability to grow and reproduce, but lacking sensation and free movement.
