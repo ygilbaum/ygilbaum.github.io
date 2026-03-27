@@ -18,7 +18,7 @@ SCOPES = ['https://www.googleapis.com/auth/drive']
 CLIENT_SECRET_FILE = '/home/eg/secrets/client_secret.json'
 INPUT_FILE = 'input.json'
 PARENT_FOLDER_ID = '1_Vjn8i4b0pcaPL4MEPUHs1ywmysOKRCe'
-BLOG_ROOT_DIR = "." 
+BLOG_ROOT_DIR = "."
 TOKEN_PATH = '/tmp/token.pickle'
 DOMAIN = "https://norush.cc"
 
@@ -108,16 +108,16 @@ def main():
     try:
         with open(INPUT_FILE, "r", encoding="utf-8") as f:
             data = json.load(f)
-            
+
         title = data.get("title", "Untitled")
         body = data.get("body", "")
         summary = data.get("summary", "") 
         tags = data.get("tags", [])
         lang = data.get("lang", "ru")
-        
+
         safe_slug = transliterate(title)
         public_url = f"{DOMAIN}/{lang}/posts/{safe_slug}/"
-        
+
         # --- ФОРМИРОВАНИЕ ССЫЛОК ДЛЯ AI ---
         ai_prompt = (
             f"Я прочитал статью \"{title}\" по ссылке: {public_url}\n\n"
