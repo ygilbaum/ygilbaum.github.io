@@ -1,6 +1,6 @@
 ---
 title: "Questions on Robert Adams’ Legacy: Faith Experience and the Epistemological Responsibility Threshold"
-date: 2026-03-28
+date: 2026-03-29
 draft: false
 tags: ["philosophy", "theology", "Robert Adams", "epistemology", "ethics", "Jonah", "Divine Command Theory"]
 ---
@@ -11,37 +11,39 @@ tags: ["philosophy", "theology", "Robert Adams", "epistemology", "ethics", "Jona
 
 **Dear Colleagues and Followers of Robert Adams,**
 
-I am writing to you as someone deeply interested in the philosophy of religion and theology. Robert Adams' work—his Divine Command Theory and defense of 'critical realism'—has always sparked my sincere interest as an ambitious attempt to ground the objectivity of theistic ethics. In particular, I have carefully analyzed his work **'The Virtue of Faith,'** specifically **Part III**, which addresses questions of **Ethical Wrongness**.
+I am writing to you as someone deeply interested in the philosophy of religion and theology. Robert Adams' work—his Divine Command Theory and defense of 'critical realism'—has always sparked my sincere interest as an ambitious attempt to ground the objectivity of theistic ethics. In particular, I have carefully analyzed his work "The Virtue of Faith," specifically Part III, which addresses questions of Ethical Wrongness.
 
-However, it is precisely in examining these theses that I have encountered fundamental contradictions. I see an epistemological dead end here which, in my view, renders the entire logic of justification absurd. I propose to examine these systemic vulnerabilities.
+However, upon detailed examination of these theses, I encounter fundamental structural vulnerabilities. I see an epistemological dead end here which, in my view, renders the logic of justification internally inconsistent. I propose to examine these problems.
 
-#### 1. The Problem of Mediated Perception and the Kantian Limit
+#### 1. The Projection Problem and the Epistemological Limit
 
-Adams assumes we can recognize God's will through its alignment with His benevolent character (love and goodness). My question concerns the fundamental distinction between direct perception of an object and perception through its properties. Lacking a direct, verifiable channel to the Transcendent, the subject is forced to perceive the signal indirectly—through the filter of their own ethical categories.
+Robert Adams posits that we are capable of recognizing God's will through its alignment with His benevolent character. It is understood that within analytic theology, we are not speaking of direct access to the noumenal essence of God. However, the perception of a mediated signal—through concepts of "love" or "goodness"—inevitably collides with what the literature terms the Projection Problem: mistaking an intersubjective ethical consensus for an objective revelation.
 
-Here, a Kantian epistemological barrier inevitably arises. Our perceptual apparatus is strictly personal and limited; it can only operate with phenomena within our consciousness. The Source itself (the Transcendent) forever remains an unattainable 'thing-in-itself' (*Ding an sich*). When we attempt to recognize God through His 'properties' (e.g., goodness), we inevitably substitute our own phenomenal experience into these categories.
+When we interpret the will of the Absolute, we utilize our finite, human concept of "love." Although this does not destroy theology as such—which remains possible as an aspiration—it imposes a rigid epistemological limit. In our normative reality, a complete, undistorted contact with the Absolute is unattainable. Consequently, we may know God, but we do not possess sufficient epistemological access to judge the manifestations of His love on the scale of infinity using our human metrics.
 
-Furthermore, the principle of incommensurable scales applies here. God and a finite human being are magnitudes of an infinitely different order. Using our finite, human concept of 'love' to verify the actions of the Absolute is to commit a gross anthropocentric error. How can we be certain the 'Voice' we hear is not merely a resonance of our own concepts? Without direct access to the Source, we risk mistaking **our own ethical position—a sort of 'aesthetic alias'** produced by a psyche confined to the world of phenomena—for divine revelation.
+How can we be certain that the "Voice" we hear is not merely a resonance of our own or our community's ideals? We risk accepting as Divine revelation what would be more accurately termed an "aesthetic alias": a judgment structurally analogous to taste—based on personal, cultural, or historically conditioned preferences—yet claiming the status of an objective moral fact. Tradition shapes this alias and grants it intersubjective stability, but it does not make it objective in the sense required by Adams' realism.
 
-#### 2. Fallibilism, Risk Asymmetry, and the Example of Jonah
+#### 2. Risk Asymmetry, Fallibilism, and the Jonah Argument
 
-My second question involves situations where a perceived 'Voice' commands an action conflicting with universal morality (the traditional Abrahamic paradox).
+The second question arises during the so-called "teleological suspension of the ethical"—when a perceived "Voice" demands an action that conflicts with one's moral system.
 
-I fully understand that modern analytic philosophy relies on fallibilism: we operate under conditions of probability, and Cartesian 100% certainty is unattainable. However, a critical problem of **risk asymmetry** emerges here. If the supposed command requires violating a fundamental moral law (taking a life, causing irreparable harm), performing such an act demands absolute certainty regarding the Source. Any reliance on probability (even 99.9%) in a situation of ethical conflict is morally impermissible. Committing an unethical act based on a fallibilist assumption is not an 'epistemic risk'; it is playing roulette with reality.
+Modern philosophy operates on fallibilism, recognizing that we make decisions—in medicine, in law—under conditions of probability, lacking one hundred percent certainty. However, a fundamental distinction must be drawn here. When a surgeon makes a risky decision, they operate within an ethical paradigm: they strive to preserve life, and their fallibilism is ethically flawless in its intent. But when a supposed command requires committing an act of direct destruction or violence—violating basic morality—the application of fallibilism becomes impermissible. Justifying the infliction of irreparable harm with a probabilistic hypothesis that it is the "Voice of God" means committing a moral crime, regardless of whether the hypothesis later proves correct.
 
-The example of the prophet Jonah is pertinent here: he possessed prophetic (100%) certainty regarding the source, yet his personal reluctance to bring destruction upon Nineveh created a massive conflict. If following an 'unethical' command requires an immense struggle even with an absolute direct signal, how can it be permissible to commit a morally reprehensible act based only on probabilistic conviction?
+In this context, the example of the prophet Jonah is illustrative. It is crucial to understand the context: Jonah was a prophet in a world where the destruction of an enemy of God's people was not a moral flaw, but a high moral task. Nineveh was an imperial power of real violence, and from the perspective of Jonah's coherent ethical system, justice demanded retribution, not mercy. God's command to go and save Nineveh directly contradicted this system.
 
-I foresee the objection that such situations are merely 'thought experiments.' However, within the framework of realism, such an argument is absurd. **Building a survival strategy in the desert on the assumption that bottles of water fall directly from the sky** is to ignore the basic laws of physics. Similarly, reasoning about theistic ethics while ignoring the hermeticism of the subject is to ignore the laws of reality. Any claim to sufficient certainty in the absence of a direct interface is either a dangerous self-deception or a symptom of pathology.
+And here is the key point: Jonah possessed absolute, one hundred percent prophetic certainty regarding the Source of the command—yet he still experienced colossal internal resistance because the command violated his moral intuition of justice. Following this command required immense overexertion and an internal breaking point, even with a direct and absolute signal.
 
-#### 3. The Limits of Faith as a Compensator
+If following a morally conflicting command requires such overcoming even with one hundred percent verification of the Source—it is *a fortiori* impermissible to commit a morally reprehensible act while possessing only probabilistic conviction. Attempting to justify a violation of fundamental ethics in the fundamental absence of a direct, verifiable interface is a structural inconsistency, not an epistemic risk.
 
-It is often argued that faith can fill this gap in objective certainty. However, for the realist position, this appears as a capitulation. Faith is an internal, phenomenal state of the subject, an act of will. If I use the intensity of my faith to 'complete' a signal from an unknowable 'thing-in-itself,' am I not merely amplifying my own subjective distortions?
+#### 3. The Limits of Faith and the Ethics of Belief
 
-For a realist, adequacy to objective fact is paramount, not the intensity of conviction. Attempting to substitute the lack of a direct communication channel with the intensity of faith seems to be an abandonment of realism in favor of solipsism.
+It is often argued that religious experience, faith, and dispositions cultivated within a community can compensate for this lack of objective certainty. However, from the standpoint of realism, using faith as a compensator in a moral conflict looks like epistemological capitulation.
 
-Although I am offering an abstract polemic here, it is obvious to me that the Adams system's attempt to bypass this fundamental hermeticism of the subject leads to an absurd dead end, where the situation under consideration cannot exist under any circumstances within the reality of our world. Without an honest admission of this limitation, any attempts to justify 'Divine Commands' risk becoming merely a sophisticated tool for justifying one's own subjectivity.
+Faith as trust or disposition may be rational in matters of personal salvation or theology in general. But if the intensity of faith or the depth of communal rootedness is used to "complete" a signal calling for the violation of a moral law, it merely amplifies subjective or collective distortions—the very thing Adams' realism is meant to protect against. For a realist, adequacy to objective fact is what matters, not the intensity of a disposition or its social entrenchment.
 
-Respectfully,
+Thus, Adams' system reveals a structural vulnerability precisely at the point of the "teleological suspension of the ethical": it fails to provide an epistemological criterion sufficient to distinguish genuine revelation from collective projection in situations of direct moral conflict. Without such a criterion, the appeal to Divine Commands in these situations remains open to being used for purposes directly opposite to those claimed—justifying a subjective or group will under the guise of an objective moral requirement.
+
+Respectfully,  
 [Eugene Sukhanov]
 
 ---
