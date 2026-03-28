@@ -120,10 +120,16 @@ def main():
 
         # --- ФОРМИРОВАНИЕ ССЫЛОК ДЛЯ AI ---
         ai_prompt = (
-            f"Я прочитал статью \"{title}\" по ссылке: {public_url}\n\n"
-            f"Краткая суть: {summary}\n\n"
-            f"Давай обсудим идеи из этого текста. Что ты думаешь об этом?"
+            f"I read the article \"{title}\" at the following link: {public_url}\n\n"
+            f"Summary: {summary}\n\n"
+            f"Let's discuss the ideas presented in this text. What are your thoughts on it?"
         )
+        if lang == "ru":
+            ai_prompt = (
+                f"Я прочитал статью \"{title}\" по ссылке: {public_url}\n\n"
+                f"Краткая суть: {summary}\n\n"
+                f"Давай обсудим идеи из этого текста. Что ты думаешь об этом?"
+            )
         encoded_prompt = urllib.parse.quote(ai_prompt)
         
         # 1. Ссылка для Google AI Studio (Gemini 3 Pro Preview)
