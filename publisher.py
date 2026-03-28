@@ -133,14 +133,24 @@ def main():
         
         # 2. Ссылка для ChatGPT
         gpt_link = f"https://chatgpt.com/?q={encoded_prompt}"
+        claude_link = f"https://claude.ai/new?q={url_encoded_prompt}"
         
         # Markdown футер
         ai_footer = (
-            f"\n\n---\n### 🧠 Продолжить диалог\n"
-            f"Эта тема требует обсуждения? Выберите AI для дебатов:\n\n"
-            f"* [Открыть в **Google AI Studio (Gemini 3 Pro)**]({gemini_link}) _(State of the Art)_\n"
-            f"* [Открыть в **ChatGPT**]({gpt_link})\n"
+            f"\n\n---\n### 🧠 Continue the discussion\n"
+            f"Want to discuss this topic further? Choose an AI to debate with:\n\n"
+            f"* [Open in **Google AI Studio (Gemini 3 Pro)**]({gemini_link}) _(State of the Art)_\n"
+            f"* [Open in **Claude**]({claude_link})\n"
+            f"* [Open in **ChatGPT**]({gpt_link})\n"
         )
+        if lang == "ru":
+            ai_footer = (
+                f"\n\n---\n### 🧠 Продолжить диалог\n"
+                f"Эта тема требует обсуждения? Выберите AI для дебатов:\n\n"
+                f"* [Открыть в **Google AI Studio (Gemini 3 Pro)**]({gemini_link}) _(State of the Art)_\n"
+                f"* [Открыть в **Claude**]({claude_link})\n"
+                f"* [Открыть в **ChatGPT**]({gpt_link})\n"
+            )
         
         blog_body = body + ai_footer
         drive_body = f"{title}\n\nTags: {', '.join(tags)}\nSummary: {summary}\n\n{body}"
