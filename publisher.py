@@ -133,7 +133,7 @@ def main():
         
         # 2. Ссылка для ChatGPT
         gpt_link = f"https://chatgpt.com/?q={encoded_prompt}"
-        claude_link = f"https://claude.ai/new?q={url_encoded_prompt}"
+        claude_link = f"https://claude.ai/new?q={encoded_prompt}"
         
         # Markdown футер
         ai_footer = (
