@@ -9,10 +9,9 @@ from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
 import io
-from datetime import datetime
 
 # --- МАГИЧЕСКАЯ СТРОКА ДЛЯ WSL ---
-os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1' 
 
 # --- НАСТРОЙКИ ---
 SCOPES = ['https://www.googleapis.com/auth/drive']
@@ -73,7 +72,7 @@ def upload_or_update_gdoc(service, title, text_content, lang_prefix):
     full_title = f"[{lang_prefix.upper()}] {title}"
     print(f"Обработка Google Drive: {full_title}...")
     query = f"name = '{full_title}' and '{PARENT_FOLDER_ID}' in parents and trashed = false"
-    results = service.files().list(q=query, spaces='drive', fields='files(id, name)').execute()
+    results = service.files().list(q=query, spaces='drive', fields='files(id, name, webViewLink)').execute()
     files = results.get('files', [])
     media = MediaIoBaseUpload(io.BytesIO(text_content.encode('utf-8')), mimetype='text/plain', resumable=False)
     if files:
@@ -82,7 +81,7 @@ def upload_or_update_gdoc(service, title, text_content, lang_prefix):
         return file_id
     else:
         file_metadata = {'name': full_title, 'mimeType': 'application/vnd.google-apps.document', 'parents': [PARENT_FOLDER_ID]}
-        gdoc = service.files().create(body=file_metadata, media_body=media, fields='id').execute()
+        gdoc = service.files().create(body=file_metadata, media_body=media, fields='id, webViewLink').execute()
         return gdoc.get('id')
 
 def git_push_changes(commit_message):
@@ -97,7 +96,7 @@ def git_push_changes(commit_message):
         subprocess.run(["git", "add", "."], check=True)
         subprocess.run(["git", "commit", "-m", commit_message], check=True)
         subprocess.run(["git", "push"], check=True)
-        print(f"Успех! Изменения отправлены в репозиторий.")
+        print(f"Успех! Отправлено на GitHub.")
     except subprocess.CalledProcessError as e:
         print(f"Ошибка Git: {e}")
 
@@ -108,82 +107,85 @@ def main():
 
     try:
         with open(INPUT_FILE, "r", encoding="utf-8") as f:
-            content = json.load(f)
-            # Приводим к списку, если подан один объект
-            items = content if isinstance(content, list) else [content]
+            data = json.load(f)
 
+        title = data.get("title", "Untitled")
+        body = data.get("body", "")
+        summary = data.get("summary", "") 
+        tags = data.get("tags", [])
+        lang = data.get("lang", "ru")
+
+        safe_slug = transliterate(title)
+        public_url = f"{DOMAIN}/{lang}/posts/{safe_slug}/"
+
+        # --- ФОРМИРОВАНИЕ ССЫЛОК ДЛЯ AI ---
+        ai_prompt = (
+            f"I read the article \"{title}\" at the following link: {public_url}\n\n"
+            f"Summary: {summary}\n\n"
+            f"Let's discuss the ideas presented in this text. What are your thoughts on it?"
+        )
+        if lang == "ru":
+            ai_prompt = (
+                f"Я прочитал статью \"{title}\" по ссылке: {public_url}\n\n"
+                f"Краткая суть: {summary}\n\n"
+                f"Давай обсудим идеи из этого текста. Что ты думаешь об этом?"
+            )
+        encoded_prompt = urllib.parse.quote(ai_prompt)
+        
+        # 1. Ссылка для Google AI Studio (Gemini 3 Pro Preview)
+        # ВНИМАНИЕ: Если модель еще закрыта в API, ссылка может открыться на дефолтной модели.
+        # Но мы просим именно её.
+        gemini_link = f"https://aistudio.google.com/prompts/new_chat?model=gemini-3-pro-preview&prompt={encoded_prompt}"
+        
+        # 2. Ссылка для ChatGPT
+        gpt_link = f"https://chatgpt.com/?q={encoded_prompt}"
+        claude_link = f"https://claude.ai/new?q={encoded_prompt}"
+        
+        # Markdown футер
+        ai_footer = (
+            f"\n\n---\n### 🧠 Continue the discussion\n"
+            f"Want to discuss this topic further? Choose an AI to debate with:\n\n"
+            f"* [Open in **Google AI Studio (Gemini 3 Pro)**]({gemini_link}) _(State of the Art)_\n"
+            f"* [Open in **Claude**]({claude_link})\n"
+            f"* [Open in **ChatGPT**]({gpt_link})\n"
+        )
+        if lang == "ru":
+            ai_footer = (
+                f"\n\n---\n### 🧠 Продолжить диалог\n"
+                f"Эта тема требует обсуждения? Выберите AI для дебатов:\n\n"
+                f"* [Открыть в **Google AI Studio (Gemini 3 Pro)**]({gemini_link}) _(State of the Art)_\n"
+                f"* [Открыть в **Claude**]({claude_link})\n"
+                f"* [Открыть в **ChatGPT**]({gpt_link})\n"
+            )
+        
+        blog_body = body + ai_footer
+        drive_body = f"{title}\n\nTags: {', '.join(tags)}\nSummary: {summary}\n\n{body}"
+        
         creds = authenticate()
         service = build('drive', 'v3', credentials=creds)
+        upload_or_update_gdoc(service, title, drive_body, lang)
+        
+        output_dir = os.path.join(BLOG_ROOT_DIR, "content", lang, "posts")
+        os.makedirs(output_dir, exist_ok=True)
+        blog_filename = os.path.join(output_dir, safe_slug + ".md")
+        
+        from datetime import datetime
         date_now = datetime.now().strftime("%Y-%m-%d")
-        processed_titles = []
 
-        for data in items:
-            title = data.get("title", "Untitled")
-            body = data.get("body", "")
-            summary = data.get("summary", "")
-            tags = data.get("tags", [])
-            lang = data.get("lang", "ru")
-
-            safe_slug = transliterate(title)
-            public_url = f"{DOMAIN}/{lang}/posts/{safe_slug}/"
-
-            # Формирование промптов
-            if lang == "ru":
-                ai_prompt = f"Я прочитал статью \"{title}\" по ссылке: {public_url}\n\nКраткая суть: {summary}\n\nДавай обсудим идеи из этого текста. Что ты думаешь об этом?"
-                footer_title = "### 🧠 Продолжить диалог"
-                footer_text = "Эта тема требует обсуждения? Выберите AI для дебатов:"
-            elif lang == "he":
-                ai_prompt = f"קראתי את המאמר \"{title}\" בקישור הבא: {public_url}\n\nתקציר: {summary}\n\nבוא נדון ברעיונות המוצגים בטקסט זה. מה דעתך?"
-                footer_title = "### 🧠 המשך הדיון"
-                footer_text = "האם הנושא דורש דיון? בחר בינה מלאכותית לעימות:"
-            else:
-                ai_prompt = f"I read the article \"{title}\" at the following link: {public_url}\n\nSummary: {summary}\n\nLet's discuss the ideas presented in this text. What are your thoughts on it?"
-                footer_title = "### 🧠 Continue the discussion"
-                footer_text = "Want to discuss this topic further? Choose an AI to debate with:"
-
-            encoded_prompt = urllib.parse.quote(ai_prompt)
-            gemini_link = f"https://aistudio.google.com/prompts/new_chat?model=gemini-3-pro-preview&prompt={encoded_prompt}"
-            gpt_link = f"https://chatgpt.com/?q={encoded_prompt}"
-            claude_link = f"https://claude.ai/new?q={encoded_prompt}"
-
-            ai_footer = (
-                f"\n\n---\n{footer_title}\n"
-                f"{footer_text}\n\n"
-                f"* [Google AI Studio (Gemini 3 Pro)]({gemini_link}) _(State of the Art)_\n"
-                f"* [Claude]({claude_link})\n"
-                f"* [ChatGPT]({gpt_link})\n"
-            )
-
-            blog_body = body + ai_footer
-            drive_body = f"{title}\n\nTags: {', '.join(tags)}\nSummary: {summary}\n\n{body}"
-
-            # Загрузка на Google Drive
-            upload_or_update_gdoc(service, title, drive_body, lang)
-
-            # Создание локального MD файла для Hugo
-            output_dir = os.path.join(BLOG_ROOT_DIR, "content", lang, "posts")
-            os.makedirs(output_dir, exist_ok=True)
-            blog_filename = os.path.join(output_dir, f"{safe_slug}.md")
-
-            with open(blog_filename, "w", encoding="utf-8") as f:
-                f.write(f"---\n")
-                f.write(f"title: \"{title}\"\n")
-                f.write(f"date: {date_now}\n")
-                f.write(f"draft: false\n")
-                f.write(f"tags: {json.dumps(tags, ensure_ascii=False)}\n")
-                f.write(f"---\n\n")
-                f.write(blog_body)
+        with open(blog_filename, "w", encoding="utf-8") as f:
+            f.write(f"---\n")
+            f.write(f"title: \"{title}\"\n")
+            f.write(f"date: {date_now}\n")
+            f.write(f"draft: false\n")
+            f.write(f"tags: {json.dumps(tags, ensure_ascii=False)}\n")
+            f.write(f"---\n\n")
+            f.write(blog_body)
             
-            processed_titles.append(title)
-            print(f"Готово ({lang}): {blog_filename}")
-
-        # Git push после обработки всех языков
-        if processed_titles:
-            git_push_changes(f"New posts: {', '.join(processed_titles)}")
+        print(f"Локальный файл: {blog_filename}")
+        git_push_changes(f"New post: {title}")
 
     except Exception as e:
         print(f"Критическая ошибка: {e}")
 
 if __name__ == '__main__':
     main()
-
