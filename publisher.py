@@ -18,6 +18,7 @@ os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 SCOPES = ['https://www.googleapis.com/auth/drive']
 CLIENT_SECRET_FILE = '/home/eg/secrets/client_secret.json'
 INPUT_FILE = 'input.json'
+MANIFEST_FILE = 'content_manifest.json'
 PARENT_FOLDER_ID = '1_Vjn8i4b0pcaPL4MEPUHs1ywmysOKRCe'
 BLOG_ROOT_DIR = "."
 TOKEN_PATH = '/tmp/token.pickle'
@@ -69,6 +70,19 @@ def authenticate():
             pickle.dump(creds, token)
     return creds
 
+def load_manifest():
+    if os.path.exists(MANIFEST_FILE):
+        try:
+            with open(MANIFEST_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Предупреждение: Ошибка чтения манифеста ({e}). Создаем новый.")
+    return {}
+
+def save_manifest(manifest):
+    with open(MANIFEST_FILE, 'w', encoding='utf-8') as f:
+        json.dump(manifest, f, ensure_ascii=False, indent=2)
+
 def upload_or_update_gdoc(service, title, text_content, lang_prefix):
     full_title = f"[{lang_prefix.upper()}] {title}"
     print(f"Обработка Google Drive: {full_title}...")
@@ -109,12 +123,14 @@ def main():
     try:
         with open(INPUT_FILE, "r", encoding="utf-8") as f:
             content = json.load(f)
-            # Приводим к списку, если подан один объект
             items = content if isinstance(content, list) else [content]
 
         creds = authenticate()
         service = build('drive', 'v3', credentials=creds)
-        date_now = datetime.now().strftime("%Y-%m-%d")
+        manifest = load_manifest()
+
+        date_iso = datetime.now().strftime("%Y-%m-%d")
+        last_updated_ts = datetime.now().strftime("%Y-%m-%d %H:%M")
         processed_titles = []
 
         for data in items:
@@ -123,63 +139,96 @@ def main():
             summary = data.get("summary", "")
             tags = data.get("tags", [])
             lang = data.get("lang", "ru")
+            post_id = str(data.get("id"))
+            metadata = data.get("metadata", {})
 
-            safe_slug = transliterate(title)
-            public_url = f"{DOMAIN}/{lang}/posts/{safe_slug}/"
+            if not post_id:
+                print(f"Ошибка: Пропуск '{title}', не указан ID.")
+                continue
 
-            # Формирование промптов
+            # Логика версионности
+            if post_id in manifest:
+                version = manifest[post_id].get("current_version", 1) + 1
+                original_date = manifest[post_id].get("date", date_iso)
+            else:
+                version = 1
+                original_date = date_iso
+
+            # Обновляем манифест
+            manifest[post_id] = {
+                "filename": f"{post_id}.md",
+                "lang": lang,
+                "current_version": version,
+                "date": original_date,
+                "last_updated": last_updated_ts,
+                "title": title,
+                "metadata": metadata
+            }
+
+            # Формирование URL и футера
+            public_url = f"{DOMAIN}/{lang}/posts/{post_id}/"
+
             if lang == "ru":
-                ai_prompt = f"Я прочитал статью \"{title}\" по ссылке: {public_url}\n\nКраткая суть: {summary}\n\nДавай обсудим идеи из этого текста. Что ты думаешь об этом?"
+                ai_prompt = f"Я прочитал статью \"{title}\" по ссылке: {public_url}\n\nКраткая суть: {summary}\n\nДавай обсудим идеи из этого текста."
                 footer_title = "### 🧠 Продолжить диалог"
                 footer_text = "Эта тема требует обсуждения? Выберите AI для дебатов:"
             elif lang == "he":
-                ai_prompt = f"קראתי את המאמר \"{title}\" בקישור הבא: {public_url}\n\nתקציר: {summary}\n\nבוא נדון ברעיונות המוצגים בטקסט זה. מה דעתך?"
+                ai_prompt = f"קראתי את המאמר \"{title}\" בקישור הבא: {public_url}\n\nתקציר: {summary}\n\nבוא נדון ברעיונות המוצגים בטקסט זה."
                 footer_title = "### 🧠 המשך הדיון"
                 footer_text = "האם הנושא דורש דיון? בחר בינה מלאכותית לעימות:"
             else:
-                ai_prompt = f"I read the article \"{title}\" at the following link: {public_url}\n\nSummary: {summary}\n\nLet's discuss the ideas presented in this text. What are your thoughts on it?"
+                ai_prompt = f"I read the article \"{title}\" at the following link: {public_url}\n\nSummary: {summary}\n\nLet's discuss the ideas."
                 footer_title = "### 🧠 Continue the discussion"
-                footer_text = "Want to discuss this topic further? Choose an AI to debate with:"
+                footer_text = "Want to discuss this topic further?"
 
             encoded_prompt = urllib.parse.quote(ai_prompt)
-            gemini_link = f"https://aistudio.google.com/prompts/new_chat?model=gemini-3-pro-preview&prompt={encoded_prompt}"
-            gpt_link = f"https://chatgpt.com/?q={encoded_prompt}"
-            claude_link = f"https://claude.ai/new?q={encoded_prompt}"
-
             ai_footer = (
                 f"\n\n---\n{footer_title}\n"
                 f"{footer_text}\n\n"
-                f"* [Google AI Studio (Gemini 3 Pro)]({gemini_link}) _(State of the Art)_\n"
-                f"* [Claude]({claude_link})\n"
-                f"* [ChatGPT]({gpt_link})\n"
+                f"* [Gemini 3 Pro](https://aistudio.google.com/prompts/new_chat?model=gemini-3-pro-preview&prompt={encoded_prompt})\n"
+                f"* [Claude](https://claude.ai/new?q={encoded_prompt})\n"
+                f"* [ChatGPT](https://chatgpt.com/?q={encoded_prompt})\n"
             )
 
-            blog_body = body + ai_footer
-            drive_body = f"{title}\n\nTags: {', '.join(tags)}\nSummary: {summary}\n\n{body}"
+            # Блок метаданных в боди
+            version_footer = (
+                f"\n\n---\n"
+                f"**Meta-information:**\n"
+                f"* **ID:** `{post_id}`\n"
+                f"* **Version:** `{version}`\n"
+                f"* **Last Updated:** `{last_updated_ts}`\n"
+            )
 
-            # Загрузка на Google Drive
+            blog_body = body + ai_footer + version_footer
+            drive_body = f"ID: {post_id} | v{version}\n{title}\n\nTags: {', '.join(tags)}\n\n{body}"
+
             upload_or_update_gdoc(service, title, drive_body, lang)
 
-            # Создание локального MD файла для Hugo
+            # Запись MD файла
             output_dir = os.path.join(BLOG_ROOT_DIR, "content", lang, "posts")
             os.makedirs(output_dir, exist_ok=True)
-            blog_filename = os.path.join(output_dir, f"{safe_slug}.md")
+            blog_filename = os.path.join(output_dir, f"{post_id}.md")
 
             with open(blog_filename, "w", encoding="utf-8") as f:
-                f.write(f"---\n")
+                f.write("---\n")
                 f.write(f"title: \"{title}\"\n")
-                f.write(f"date: {date_now}\n")
-                f.write(f"draft: false\n")
+                f.write(f"id: \"{post_id}\"\n")
+                f.write(f"version: {version}\n")
+                f.write(f"date: {original_date}\n")
+                f.write(f"lastmod: \"{last_updated_ts}\"\n")
                 f.write(f"tags: {json.dumps(tags, ensure_ascii=False)}\n")
-                f.write(f"---\n\n")
+                if metadata:
+                    f.write(f"metadata: {json.dumps(metadata, ensure_ascii=False)}\n")
+                f.write("---\n\n")
                 f.write(blog_body)
-            
-            processed_titles.append(title)
+
+            processed_titles.append(f"{title} (v{version})")
             print(f"Готово ({lang}): {blog_filename}")
 
-        # Git push после обработки всех языков
+        save_manifest(manifest)
+
         if processed_titles:
-            git_push_changes(f"New posts: {', '.join(processed_titles)}")
+            git_push_changes(f"Update: {', '.join(processed_titles)}")
 
     except Exception as e:
         print(f"Критическая ошибка: {e}")

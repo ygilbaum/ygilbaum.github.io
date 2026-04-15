@@ -55,6 +55,7 @@ params:
   ShowPostNavLinks: true
   ShowBreadCrumbs: true
   ShowCodeCopyButtons: true
+  googleAnalyticsID: "G-DF5YDCYWL8"
 
   # --- РЕЖИМ БЛОГА (ВКЛЮЧЕНО) ---
   # Это покажет приветствие и список статей под ним
