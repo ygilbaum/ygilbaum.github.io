@@ -3,6 +3,7 @@ title: "No Rush"
 theme: "PaperMod"
 defaultContentLanguage: "ru"
 buildFuture: true  # <--- ВАЖНО: Публиковать посты, даже если дата "в будущем" (из-за часовых поясов)
+googleAnalytics: "G-DF5YDCYWL8"
 
 markup:
   goldmark:
